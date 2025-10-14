@@ -1,0 +1,32 @@
+{% extends "arc_cms/base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    
+    {% if page.intro %}
+        <div class="intro">{{ page.intro|richtext }}</div>
+    {% endif %}
+    
+    {% if page.requirements %}
+        <div class="requirements">
+            <h2>Requirements</h2>
+            {{ page.requirements|richtext }}
+        </div>
+    {% endif %}
+    
+    {% if page.registration_form_url %}
+        <div class="registration">
+            <a href="{{ page.registration_form_url }}" class="btn">Register Now</a>
+        </div>
+    {% endif %}
+    
+    <div class="page-content">
+        {% for block in page.body %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+{% endblock %}
+

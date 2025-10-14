@@ -1,0 +1,5 @@
+2025-10-06 20:26:57,510 | INFO | Unpublished: "Welcome to your new Wagtail site!" pk=2
+2025-10-06 20:26:57,519 | INFO | Page deleted: "Welcome to your new Wagtail site!" id=2
+2025-10-06 20:26:57,528 | INFO | Page created: "ARC Home" id=3 content_type=cms_app.HomePage path=/arc-home/
+2025-10-06 20:26:57,560 | INFO | Page edited: "ARC Home" id=3 revision_id=1
+2025-10-06 20:26:57,591 | INFO | Published: "ARC Home" pk=3 revision_id=1

@@ -1,0 +1,6 @@
+{% load wagtailimages_tags %}
+<div class="gallery-image">
+    {% image value.image fill-600x400 %}
+    {% if value.caption %}<p>{{ value.caption }}</p>{% endif %}
+</div>
+

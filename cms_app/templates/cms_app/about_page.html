@@ -1,0 +1,33 @@
+{% extends "arc_cms/base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ page.title }}</h1>
+    
+    {% if page.intro %}
+        <div class="intro">{{ page.intro|richtext }}</div>
+    {% endif %}
+    
+    {% if page.mission %}
+        <div class="mission">
+            <h2>Our Mission</h2>
+            {{ page.mission|richtext }}
+        </div>
+    {% endif %}
+    
+    {% if page.vision %}
+        <div class="vision">
+            <h2>Our Vision</h2>
+            {{ page.vision|richtext }}
+        </div>
+    {% endif %}
+    
+    <div class="page-content">
+        {% for block in page.body %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+{% endblock %}
+

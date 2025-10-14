@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+<div class="team-member">
+    {% if value.photo %}
+        {% image value.photo fill-300x300 %}
+    {% endif %}
+    <h3>{{ value.name }}</h3>
+    <p class="role">{{ value.role }}</p>
+    {% if value.bio %}<p>{{ value.bio }}</p>{% endif %}
+    {% if value.email %}<p>Email: {{ value.email }}</p>{% endif %}
+    {% if value.phone %}<p>Phone: {{ value.phone }}</p>{% endif %}
+</div>
+

@@ -1,0 +1,15 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+<article class="event-block">
+    {% if value.image %}
+        {% image value.image fill-400x300 %}
+    {% endif %}
+    <h3>{{ value.title }}</h3>
+    {% if value.date %}<p>Date: {{ value.date }}</p>{% endif %}
+    {% if value.time %}<p>Time: {{ value.time }}</p>{% endif %}
+    {% if value.location %}<p>Location: {{ value.location }}</p>{% endif %}
+    {% if value.description %}{{ value.description|richtext }}{% endif %}
+    {% if value.registration_link %}
+        <a href="{{ value.registration_link }}">Register</a>
+    {% endif %}
+</article>
+

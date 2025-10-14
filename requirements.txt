@@ -1,0 +1,29 @@
+# Django
+Django>=5.2.0
+
+# MySQL Database
+mysqlclient>=2.2.0
+
+# Wagtail CMS
+wagtail>=5.2
+
+# REST Framework
+djangorestframework>=3.14.0
+django-filter>=23.0
+
+# Wagtail Dependencies
+django-taggit>=4.0.0
+django-modelcluster>=6.2
+draftjs_exporter>=2.1.7
+Pillow>=10.0.0
+Willow>=1.6.2
+
+# Static files compression
+django-compressor>=4.4
+
+# CORS
+django-cors-headers>=4.0.0
+
+# Utilities
+python-dateutil>=2.8.2
+

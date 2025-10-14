@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<div class="rule-block">
+    {% if value.rule_number %}<span class="rule-number">{{ value.rule_number }}</span>{% endif %}
+    <h3>{{ value.title }}</h3>
+    {{ value.description|richtext }}
+</div>
+
