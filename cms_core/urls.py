@@ -9,16 +9,23 @@ from django.urls import path, include, re_path
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from wagtail.api.v2.router import WagtailAPIRouter
+
+# Create API router
+api_router = WagtailAPIRouter('wagtailapi')
 
 urlpatterns = [
     # Django Admin (for database management)
     path('django-admin/', admin.site.urls),
-    
+
     # Wagtail CMS Admin
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-    
+
     # Wagtail API (for headless CMS)
+    path('api/v2/', api_router.urls),
+    
+    # Custom app URLs
     path('', include('cms_app.urls')),
 ]
 
@@ -31,4 +38,3 @@ if settings.DEBUG:
 urlpatterns += [
     re_path(r'', include(wagtail_urls)),
 ]
-
