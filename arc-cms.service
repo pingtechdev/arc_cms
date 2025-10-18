@@ -1,0 +1,34 @@
+[Unit]
+Description=ARC CMS Django Application
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=notify
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/projects/arc-deploy/arc_cms
+Environment=DJANGO_SETTINGS_MODULE=cms_core.settings
+Environment=PYTHONPATH=/home/ubuntu/projects/arc-deploy/arc_cms
+ExecStart=/home/ubuntu/projects/arc-deploy/arc_cms/venv/bin/gunicorn --config gunicorn.conf.py cms_core.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=always
+RestartSec=10
+
+# Security settings
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/ubuntu/projects/arc-deploy/arc_cms
+ReadWritePaths=/var/log/arc
+ReadWritePaths=/var/run
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target
