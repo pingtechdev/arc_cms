@@ -10,7 +10,18 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.api.v2.router import WagtailAPIRouter
-from cms_app.api import api_router
+from wagtail.api.v2.views import PagesAPIViewSet
+from wagtail.images.api.v2.views import ImagesAPIViewSet
+from wagtail.documents.api.v2.views import DocumentsAPIViewSet
+from cms_app.api import SiteSettingsAPIView
+
+# Create API router
+api_router = WagtailAPIRouter('wagtailapi')
+
+# Register API endpoints
+api_router.register_endpoint('pages', PagesAPIViewSet)
+api_router.register_endpoint('images', ImagesAPIViewSet)
+api_router.register_endpoint('documents', DocumentsAPIViewSet)
 
 urlpatterns = [
     # Django Admin (for database management)
@@ -24,7 +35,7 @@ urlpatterns = [
     path('api/v2/', api_router.urls),
     
     # Custom API endpoints
-    path('api/v2/settings/', include('cms_app.api')),
+    path('api/v2/settings/', SiteSettingsAPIView.as_view()),
     
     # Custom app URLs
     path('', include('cms_app.urls')),
