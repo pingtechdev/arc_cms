@@ -1,85 +1,87 @@
-# ARC Standalone Wagtail CMS
+# ARC CMS - Wagtail Headless CMS
 
-A standalone headless CMS built with Django and Wagtail for the ARC project.
+A headless Wagtail CMS backend for the ARC Lebanon website.
 
-## 🚀 Quick Start
+## 🚀 Features
 
-### 1. Install Dependencies
+- **Wagtail CMS** - Modern Django-based CMS
+- **Headless API** - RESTful API for frontend consumption
+- **Custom Models** - HomePage, AboutPage, EventsPage, etc.
+- **Media Management** - Image and document handling
+- **Site Settings** - Global site configuration
 
-```bash
-# Activate virtual environment
-.\venv\Scripts\activate
+## 🛠️ Tech Stack
 
-# Install requirements
-pip install -r requirements.txt
+- **Django 5.2+** - Web framework
+- **Wagtail 7.1+** - CMS framework
+- **MySQL** - Database
+- **Gunicorn** - WSGI server
+- **Nginx** - Web server
+
+## 📁 Project Structure
+
+```
+arc_cms/
+├── cms_core/           # Django project settings
+│   ├── settings.py     # Main settings
+│   ├── local_settings.py # Production settings
+│   └── urls.py         # URL configuration
+├── cms_app/           # Main application
+│   ├── models.py       # Page models
+│   ├── api.py          # API endpoints
+│   ├── blocks.py       # StreamField blocks
+│   └── templates/      # Page templates
+├── media/             # User uploaded files
+├── staticfiles/       # Collected static files
+├── requirements.txt    # Python dependencies
+└── manage.py         # Django management
 ```
 
-### 2. Database Setup
+## 🔧 Setup
 
-Make sure MySQL is running and create the database:
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```sql
-CREATE DATABASE arc_cms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+2. **Configure database:**
+   - Update `cms_core/local_settings.py` with your database credentials
 
-### 3. Run Migrations
+3. **Run migrations:**
+   ```bash
+   python manage.py migrate
+   ```
 
-```bash
-python manage.py migrate
-```
+4. **Create superuser:**
+   ```bash
+   python manage.py createsuperuser
+   ```
 
-### 4. Create Superuser
+5. **Collect static files:**
+   ```bash
+   python manage.py collectstatic
+   ```
 
-```bash
-python manage.py createsuperuser
-```
+## 🌐 API Endpoints
 
-### 5. Set Up Initial CMS Data
+- **Pages API:** `/api/v2/pages/`
+- **Images API:** `/api/v2/images/`
+- **Documents API:** `/api/v2/documents/`
+- **Site Settings:** `/api/v2/settings/`
+- **Wagtail Admin:** `/cms/`
 
-```bash
-python manage.py setup_wagtail_cms
-```
+## 🚀 Deployment
 
-### 6. Run Server
+The project is configured for production deployment with:
+- Gunicorn WSGI server
+- Nginx reverse proxy
+- MySQL database
+- Static/media file serving
 
-```bash
-python manage.py runserver 0.0.0.0:8001
-```
+## 📝 Environment Variables
 
-The CMS will be available at:
-- **Admin Panel**: http://localhost:8001/cms/
-- **API**: http://localhost:8001/api/v2/pages/
-- **Django Admin**: http://localhost:8001/django-admin/
-
-## 📚 API Endpoints
-
-- **Pages**: `GET /api/v2/pages/`
-- **Page Detail**: `GET /api/v2/pages/{id}/`
-- **Images**: `GET /api/v2/images/`
-- **Documents**: `GET /api/v2/documents/`
-
-## 🛠️ Management Commands
-
-- `python manage.py setup_wagtail_cms` - Initial setup
-- `python manage.py setup_site` - Configure site settings
-- `python manage.py fix_wagtail_tree` - Fix page tree structure
-
-## 📝 Configuration
-
-Edit `cms_core/local_settings.py` to configure:
-- Database connection
-- Media/Static files paths
+Configure in `cms_core/local_settings.py`:
+- Database credentials
+- Media/static file paths
+- Allowed hosts
 - CORS settings
-
-## 🔗 Integration
-
-Update your React app to fetch from:
-```javascript
-const API_BASE = 'http://localhost:8001/api/v2';
-```
-
-## 📖 Documentation
-
-- Admin guide available in the main project
-- Wagtail docs: https://docs.wagtail.org/
-
