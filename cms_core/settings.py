@@ -20,7 +20,7 @@ DEBUG = lsettings.get('DEBUG', os.environ.get('DEBUG', False))
 PROD = lsettings.get('PROD', os.environ.get('PROD', True))
 DEPLOY_LOCATION = lsettings.get("DEPLOY_LOCATION", "")
 
-ALLOWED_HOSTS = lsettings.get('ALLOWED_HOSTS', os.environ.get('ALLOWED_HOSTS', ['localhost', '127.0.0.1']))
+ALLOWED_HOSTS = lsettings.get('ALLOWED_HOSTS', os.environ.get('ALLOWED_HOSTS', ['localhost', '127.0.0.1','148.230.122.219','api.arc.pingtech.dev','arc.pingtech.dev']))
 
 # Application definition
 INSTALLED_APPS = [
@@ -91,15 +91,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cms_core.wsgi.application'
 
-# Database
+# Database - FIXED FOR PRODUCTION
 DATABASES = {
     'default': {
-        'ENGINE': lsettings.get('db_driver', 'django.db.backends.mysql'),
-        'NAME': lsettings.get('db_name', 'arc_cms'),
-        'USER': lsettings.get('db_user', 'root'),
-        'PASSWORD': lsettings.get('db_pass', ''),
-        'HOST': lsettings.get('db_host', 'localhost'),
-        'PORT': lsettings.get('db_port', ''),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'arc_cms',
+        'USER': 'arc_user',
+        'PASSWORD': 'ARC_cms_deploy_2025',
+        'HOST': 'localhost',
+        'PORT': '3306',
         'OPTIONS': {'charset': 'utf8mb4', 'use_unicode': True},
     },
 }
@@ -253,6 +253,8 @@ CORS_ALLOWED_ORIGINS = lsettings.get('CORS_ALLOWED_ORIGINS', [
     'http://127.0.0.1:5173',
     'http://127.0.0.1:8080',
     'http://127.0.0.1:8000',
+    'https://arc.pingtech.dev',
+    'https://api.arc.pingtech.dev',
 ])
 
 # Allow custom headers for cache-busting
@@ -274,6 +276,26 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://api.arc.pingtech.dev',
+    'https://arc.pingtech.dev',
+    'http://localhost:8000',
+    'http://localhost:8001',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:8001',
+]
+
+# CSRF Cookie Settings
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Session Settings
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
 
 # Cache Control - Disable caching for API responses in development
 if DEBUG:
@@ -305,4 +327,3 @@ WAGTAIL_RICH_TEXT_FIELD_FEATURES = [
 # Wagtail admin customization
 WAGTAIL_GRAVATAR_PROVIDER_URL = '//www.gravatar.com/avatar'
 WAGTAILADMIN_NOTIFICATION_USE_HTML = True
-

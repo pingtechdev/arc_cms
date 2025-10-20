@@ -29,10 +29,9 @@ urlpatterns = [
     path('', include('cms_app.urls')),
 ]
 
-# Serve media and static files in development (BEFORE Wagtail catch-all)
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# Serve media and static files in development and production
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Serve Wagtail pages (catch-all at the end)
 urlpatterns += [

@@ -95,7 +95,7 @@ run_django_commands() {
     source "$VENV_DIR/bin/activate"
     
     # Copy production settings
-    cp cms_core/local_settings_production.py cms_core/local_settings.py
+    # cp cms_core/local_settings_production.py cms_core/local_settings.py
     
     # Run migrations
     python manage.py migrate
@@ -220,7 +220,7 @@ main() {
     print_status "Starting ARC CMS deployment..."
     
     # Check if running as ubuntu user
-    if [ "$USER" != "ubuntu" ]; then
+    if [ "$USER" != "ubuntu" ] && ["$USER" != "root"]; then
         print_error "This script should be run as the ubuntu user"
         exit 1
     fi
