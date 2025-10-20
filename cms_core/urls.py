@@ -10,9 +10,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.api.v2.router import WagtailAPIRouter
-
-# Create API router
-api_router = WagtailAPIRouter('wagtailapi')
+from cms_app.api import api_router
 
 urlpatterns = [
     # Django Admin (for database management)
@@ -24,6 +22,9 @@ urlpatterns = [
 
     # Wagtail API (for headless CMS)
     path('api/v2/', api_router.urls),
+    
+    # Custom API endpoints
+    path('api/v2/settings/', include('cms_app.api')),
     
     # Custom app URLs
     path('', include('cms_app.urls')),
