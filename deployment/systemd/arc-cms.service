@@ -5,12 +5,13 @@ Wants=mysql.service
 
 [Service]
 Type=notify
-User=ubuntu
-Group=ubuntu
-# WorkingDirectory will be set by the deployment script
+User=${DEPLOY_USER}
+Group=${DEPLOY_GROUP}
+WorkingDirectory=${BACKEND_DIR}
 Environment=DJANGO_SETTINGS_MODULE=cms_core.settings
-# PYTHONPATH will be set dynamically
-ExecStart=/bin/bash -c 'cd "$ARC_CMS_DIR" && "$ARC_CMS_DIR/venv/bin/uwsgi" --ini uwsgi.ini'
+Environment=PYTHONPATH=${BACKEND_DIR}
+Environment=ARC_CMS_DIR=${BACKEND_DIR}
+ExecStart=${BACKEND_DIR}/venv/bin/uwsgi --ini uwsgi.ini
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s QUIT $MAINPID
 KillMode=mixed
@@ -23,7 +24,10 @@ RestartSec=10
 NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
-# ReadWritePaths will be set dynamically
+ReadWritePaths=${BACKEND_DIR}
+ReadWritePaths=${LOG_DIR}
+ReadWritePaths=/var/run
+ReadWritePaths=/tmp
 
 # Resource limits
 LimitNOFILE=65536

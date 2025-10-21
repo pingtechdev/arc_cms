@@ -1,87 +1,54 @@
-# ARC CMS - Wagtail Headless CMS
+# ARC CMS
 
-A headless Wagtail CMS backend for the ARC Lebanon website.
-
-## 🚀 Features
-
-- **Wagtail CMS** - Modern Django-based CMS
-- **Headless API** - RESTful API for frontend consumption
-- **Custom Models** - HomePage, AboutPage, EventsPage, etc.
-- **Media Management** - Image and document handling
-- **Site Settings** - Global site configuration
-
-## 🛠️ Tech Stack
-
-- **Django 5.2+** - Web framework
-- **Wagtail 7.1+** - CMS framework
-- **MySQL** - Database
-- **Gunicorn** - WSGI server
-- **Nginx** - Web server
+A Django/Wagtail CMS backend for the ARC project.
 
 ## 📁 Project Structure
 
 ```
 arc_cms/
-├── cms_core/           # Django project settings
-│   ├── settings.py     # Main settings
-│   ├── local_settings.py # Production settings
-│   └── urls.py         # URL configuration
-├── cms_app/           # Main application
-│   ├── models.py       # Page models
-│   ├── api.py          # API endpoints
-│   ├── blocks.py       # StreamField blocks
-│   └── templates/      # Page templates
-├── media/             # User uploaded files
-├── staticfiles/       # Collected static files
-├── requirements.txt    # Python dependencies
-└── manage.py         # Django management
+├── cms_app/               # Main Django app
+├── cms_core/              # Django project settings
+├── static/                # Static files
+├── media/                 # User uploaded files
+├── deployment/            # Deployment configuration
+│   ├── nginx/             # Nginx configuration
+│   ├── systemd/           # Systemd service files
+│   ├── config.sh          # Deployment settings
+│   ├── deploy.sh          # Deployment script
+│   ├── uwsgi.ini          # uWSGI configuration
+│   └── README_DEPLOYMENT.md
+├── deploy.sh              # Deployment wrapper (calls deployment/deploy.sh)
+├── manage.py              # Django management script
+├── requirements.txt       # Python dependencies
+└── README.md              # This file
 ```
 
-## 🔧 Setup
+## 🚀 Quick Start
 
-1. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Development
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
-2. **Configure database:**
-   - Update `cms_core/local_settings.py` with your database credentials
+### Production Deployment
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
 
-3. **Run migrations:**
-   ```bash
-   python manage.py migrate
-   ```
+## 📖 Documentation
 
-4. **Create superuser:**
-   ```bash
-   python manage.py createsuperuser
-   ```
+- **Development**: See Django documentation
+- **Deployment**: See `deployment/README_DEPLOYMENT.md`
 
-5. **Collect static files:**
-   ```bash
-   python manage.py collectstatic
-   ```
+## 🛠️ Technology Stack
 
-## 🌐 API Endpoints
-
-- **Pages API:** `/api/v2/pages/`
-- **Images API:** `/api/v2/images/`
-- **Documents API:** `/api/v2/documents/`
-- **Site Settings:** `/api/v2/settings/`
-- **Wagtail Admin:** `/cms/`
-
-## 🚀 Deployment
-
-The project is configured for production deployment with:
-- Gunicorn WSGI server
-- Nginx reverse proxy
-- MySQL database
-- Static/media file serving
-
-## 📝 Environment Variables
-
-Configure in `cms_core/local_settings.py`:
-- Database credentials
-- Media/static file paths
-- Allowed hosts
-- CORS settings
+- **Django 5.2+** - Web framework
+- **Wagtail 5.2+** - CMS
+- **MySQL** - Database
+- **uWSGI** - Application server
+- **Nginx** - Web server
