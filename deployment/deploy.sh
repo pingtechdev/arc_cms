@@ -9,6 +9,9 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/config.sh"
 
+# Change to the deployment directory to ensure we're in the right place
+cd "$SCRIPT_DIR"
+
 # Validate configuration
 if ! validate_config; then
     print_error "Configuration validation failed."
