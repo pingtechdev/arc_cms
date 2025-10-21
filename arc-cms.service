@@ -1,5 +1,5 @@
 [Unit]
-Description=ARC CMS Django Application
+Description=ARC CMS Django Application with uWSGI
 After=network.target mysql.service
 Wants=mysql.service
 
@@ -7,11 +7,12 @@ Wants=mysql.service
 Type=notify
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/home/ubuntu/projects/arc-deploy/arc_cms
+# WorkingDirectory will be set by the deployment script
 Environment=DJANGO_SETTINGS_MODULE=cms_core.settings
-Environment=PYTHONPATH=/home/ubuntu/projects/arc-deploy/arc_cms
-ExecStart=/home/ubuntu/projects/arc-deploy/arc_cms/venv/bin/gunicorn --config gunicorn.conf.py cms_core.wsgi:application
+# PYTHONPATH will be set dynamically
+ExecStart=/bin/bash -c 'cd "$ARC_CMS_DIR" && "$ARC_CMS_DIR/venv/bin/uwsgi" --ini uwsgi.ini'
 ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
 PrivateTmp=true
@@ -22,9 +23,7 @@ RestartSec=10
 NoNewPrivileges=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/home/ubuntu/projects/arc-deploy/arc_cms
-ReadWritePaths=/var/log/arc
-ReadWritePaths=/var/run
+# ReadWritePaths will be set dynamically
 
 # Resource limits
 LimitNOFILE=65536
