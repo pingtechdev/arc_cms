@@ -158,8 +158,20 @@ EOF
 setup_systemd() {
     print_status "Setting up systemd service..."
     
-    # Create systemd service file with variables substituted
-    envsubst < systemd/arc-cms.service > /tmp/arc-cms.service
+    # Check if envsubst is available
+    if command -v envsubst >/dev/null 2>&1; then
+        # Create systemd service file with variables substituted
+        envsubst < systemd/arc-cms.service > /tmp/arc-cms.service
+    else
+        print_warning "envsubst not found, using sed for variable substitution..."
+        # Use sed to substitute variables
+        sed -e "s|\${DEPLOY_USER}|$DEPLOY_USER|g" \
+            -e "s|\${DEPLOY_GROUP}|$DEPLOY_GROUP|g" \
+            -e "s|\${BACKEND_DIR}|$BACKEND_DIR|g" \
+            -e "s|\${LOG_DIR}|$LOG_DIR|g" \
+            -e "s|\${BACKEND_SERVICE_NAME}|$BACKEND_SERVICE_NAME|g" \
+            systemd/arc-cms.service > /tmp/arc-cms.service
+    fi
     
     # Copy service file
     sudo cp /tmp/arc-cms.service "$SYSTEMD_SERVICE_FILE"
@@ -177,8 +189,24 @@ setup_systemd() {
 setup_nginx() {
     print_status "Setting up nginx configuration..."
     
-    # Create nginx configuration with variables substituted
-    envsubst < nginx/arc_cms.conf > /tmp/arc_cms.conf
+    # Check if envsubst is available
+    if command -v envsubst >/dev/null 2>&1; then
+        # Create nginx configuration with variables substituted
+        envsubst < nginx/arc_cms.conf > /tmp/arc_cms.conf
+    else
+        print_warning "envsubst not found, using sed for variable substitution..."
+        # Use sed to substitute variables
+        sed -e "s|\${BACKEND_DOMAIN}|$BACKEND_DOMAIN|g" \
+            -e "s|\${BACKEND_PORT}|$BACKEND_PORT|g" \
+            -e "s|\${FRONTEND_DOMAIN}|$FRONTEND_DOMAIN|g" \
+            -e "s|\${BACKEND_STATIC_ROOT}|$BACKEND_STATIC_ROOT|g" \
+            -e "s|\${BACKEND_MEDIA_ROOT}|$BACKEND_MEDIA_ROOT|g" \
+            -e "s|\${BACKEND_SOCKET}|$BACKEND_SOCKET|g" \
+            -e "s|\${SSL_CERT_BACKEND}|$SSL_CERT_BACKEND|g" \
+            -e "s|\${SSL_KEY_BACKEND}|$SSL_KEY_BACKEND|g" \
+            -e "s|\${NGINX_LOG_DIR}|$NGINX_LOG_DIR|g" \
+            nginx/arc_cms.conf > /tmp/arc_cms.conf
+    fi
     
     # Copy nginx configuration
     sudo cp /tmp/arc_cms.conf "$NGINX_SITES_AVAILABLE/arc_cms.conf"
