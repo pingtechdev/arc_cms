@@ -237,11 +237,12 @@ class RuleCategoryBlock(blocks.StructBlock):
 
 
 class RuleDocumentBlock(blocks.StructBlock):
-    """Document download block"""
-    name = blocks.CharBlock(max_length=255)
-    document = DocumentChooserBlock(required=False)
-    file_type = blocks.CharBlock(max_length=10, default="PDF")
-    file_size = blocks.CharBlock(max_length=20, default="0 MB")
+    """Document download block - supports any file type with caption/description"""
+    name = blocks.CharBlock(max_length=255, help_text="Display name for the document")
+    document = DocumentChooserBlock(required=True, help_text="Upload any file type (PDF, DOC, XLS, etc.)")
+    description = blocks.TextBlock(required=False, help_text="Optional description or caption for the document")
+    file_type = blocks.CharBlock(max_length=20, required=False, help_text="File type (auto-detected from upload)")
+    file_size = blocks.CharBlock(max_length=20, required=False, help_text="File size (auto-calculated)")
     
     class Meta:
         icon = 'doc-full'
